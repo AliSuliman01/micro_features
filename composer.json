@@ -1,0 +1,32 @@
+{
+    "name": "alisuliman/p2p_rpc",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AliSuliman\\P2PRpc\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AliSuliman\\P2PRpc\\Tests": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ali Suliman",
+            "email": "alisulimanq@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^v7.3.0"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "sajya/server": "dev-master",
+        "firebase/php-jwt": "^5.5"
+    }
+}
