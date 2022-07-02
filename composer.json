@@ -28,5 +28,12 @@
         "ext-json": "*",
         "sajya/server": "dev-master",
         "firebase/php-jwt": "^5.5"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AliSuliman\\P2PRpc\\ServiceProvider"
+            ]
+        }
     }
 }
