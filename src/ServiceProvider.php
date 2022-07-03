@@ -5,8 +5,8 @@ namespace AliSuliman\P2PRpc;
 
 use AliSuliman\P2PRpc\Http\Middleware\RpcAuthentication;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Routing\Route;
 use AliSuliman\P2PRpc\Http\Middleware\SetLocale;
+use Illuminate\Routing\Router;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -20,7 +20,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function register_middlewares(Kernel $kernel){
 
-        $router = $this->app->make(Route::class);
+        $router = $this->app->make(Router::class);
 
         $router->aliasMiddleware('rpc_auth', RpcAuthentication::class);
 
