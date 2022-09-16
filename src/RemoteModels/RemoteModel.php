@@ -1,27 +1,33 @@
 <?php
 
 
-namespace AliSuliman\P2PRpc\RemoteModels;
+namespace AliSuliman\MicroFeatures\RemoteModels;
 
 
-use AliSuliman\P2PRpc\classes\RemoteBuilder;
+use AliSuliman\MicroFeatures\Builders\CacheQueryBuilder;
+use AliSuliman\MicroFeatures\Builders\RemoteQueryBuilder;
+use AliSuliman\MicroFeatures\Interfaces\ShouldBeCached;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 abstract class RemoteModel
 {
-    public $table;
+    public static $index;
 
     public function __construct()
     {
-        $this->table = $this->table ?? Str::snake(Str::pluralStudly(class_basename($this)));
+        self::$index = static::$index ?? Str::snake(Str::pluralStudly(basename(static::class)));
     }
 
-    public abstract function base_url();
+    public static abstract function originServiceName():string;
 
-    public static function query(){
-        $remote_model = new static();
-
-        return new RemoteBuilder($remote_model);
+    public static function query()
+    {
+        if ((new static()) instanceof ShouldBeCached){
+            if (!Cache::has(self::$index))
+                return (new RemoteQueryBuilder(static::originServiceName(),self::$index))->caching();
+            return new CacheQueryBuilder(self::$index);
+        }
+        return new RemoteQueryBuilder(static::originServiceName(),self::$index);
     }
-
 }

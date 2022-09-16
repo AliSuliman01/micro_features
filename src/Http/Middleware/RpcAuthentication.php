@@ -1,46 +1,41 @@
 <?php
 
-namespace AliSuliman\P2PRpc\Http\Middleware;
 
-use AliSuliman\P2PRpc\Classes\Helpers\StatusCode;
-use AliSuliman\P2PRpc\Exceptions\AuthorizationException;
-use AliSuliman\P2PRpc\Exceptions\Exception;
-use Closure;
+namespace AliSuliman\MicroFeatures\Http\Middleware;
+
+use AliSuliman\MicroFeatures\Exceptions\AuthorizationException;
+use AliSuliman\MicroFeatures\Exceptions\Exception;
+use AliSuliman\MicroFeatures\Facades\Auth;
+use AliSuliman\MicroFeatures\Helpers\StatusCode;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 
 class RpcAuthentication
 {
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
-
-        if ($request->header('Authorization')){
-
-            $token = explode(' ', $request->header('Authorization'))[1] ;
-
+        if ($request->header('Authorization')) {
+            $token = $request->bearerToken();
             try {
-                $hashKey = file_get_contents(__DIR__ . '/../../storage/jwt-secret.key');
-
-                $decoded = JWT::decode($token,new Key($hashKey,'HS256'));
-
-                $request->json()->add(['client_identity' => $decoded]);
-
-            } catch (\Exception $e){
-                throw new Exception($e->getMessage(), StatusCode::UNAUTHORIZED);
+                $hashKey = file_get_contents(__DIR__ . '/../../../storage/jwt-secret.key');
+                JWT::decode($token, new Key($hashKey, 'HS256'));
+            } catch (\Exception $e) {
+                throw new Exception($e->getMessage(), StatusCode::UNAUTHENTICATED);
             }
 
+            Auth::setRpcToken($token);
             return $next($request);
         }
 
         throw new AuthorizationException();
-
     }
 }

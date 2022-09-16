@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AliSuliman\P2PRpc\Classes\Helpers;
+namespace AliSuliman\MicroFeatures\Helpers;
 
 
 class StatusCode

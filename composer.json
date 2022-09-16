@@ -1,15 +1,15 @@
 {
-    "name": "alisuliman/p2p_rpc",
+    "name": "alisuliman/micro_features",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "AliSuliman\\P2PRpc\\": "src/"
+            "AliSuliman\\MicroFeatures\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AliSuliman\\P2PRpc\\Tests": "tests/"
+            "AliSuliman\\MicroFeatures\\Tests": "tests/"
         }
     },
     "authors": [
@@ -32,7 +32,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "AliSuliman\\P2PRpc\\ServiceProvider"
+                "AliSuliman\\MicroFeatures\\ServiceProvider"
             ]
         }
     }

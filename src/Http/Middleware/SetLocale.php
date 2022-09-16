@@ -1,11 +1,10 @@
 <?php
 
-namespace AliSuliman\P2PRpc\Http\Middleware;
+namespace AliSuliman\MicroFeatures\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class SetLocale
 {

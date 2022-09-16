@@ -1,13 +1,10 @@
 <?php
 
 
-namespace AliSuliman\P2PRpc\Exceptions;
+namespace AliSuliman\MicroFeatures\Exceptions;
 
-
-use AliSuliman\P2PRpc\Classes\Helpers\Helpers;
-use AliSuliman\P2PRpc\Classes\Helpers\StatusCode;
+use AliSuliman\MicroFeatures\Helpers\StatusCode;
 use Illuminate\Http\Request;
-use Throwable;
 
 class AuthorizationException extends \Exception
 {

@@ -1,12 +1,17 @@
 <?php
 
 
-namespace AliSuliman\P2PRpc;
+namespace AliSuliman\MicroFeatures;
 
-use AliSuliman\P2PRpc\Http\Middleware\RpcAuthentication;
+use AliSuliman\MicroFeatures\Http\Middleware\RpcAuthentication;
+use AliSuliman\MicroFeatures\Models\MicroModel;
 use Illuminate\Contracts\Http\Kernel;
-use AliSuliman\P2PRpc\Http\Middleware\SetLocale;
+use AliSuliman\MicroFeatures\Http\Middleware\SetLocale;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use Ramaaz\MicroContact\Observers\CachedDataObserver;
+use Ramaaz\MicroContact\Observers\LockedDataObserver;
+use Ramaaz\MicroContact\Observers\UserTrackingObserver;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -16,6 +21,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->load_routes();
         $this->merge_configs();
         $this->register_publishes();
+
+        MicroModel::observe(CachedDataObserver::class);
+        MicroModel::observe(LockedDataObserver::class);
+        MicroModel::observe(UserTrackingObserver::class);
     }
 
     private function register_middlewares(Kernel $kernel){
@@ -30,8 +39,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function load_routes()
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes/p2p_rpc.php');
-        \Illuminate\Support\Facades\Route::group(['prefix' => 'rpc', 'middleware' => 'rpc_auth'], function () {
+        $this->loadRoutesFrom(__DIR__ . '/routes/micro_features.php');
+        Route::group(['prefix' => 'rpc', 'middleware' => 'rpc_auth'], function () {
             if (file_exists(base_path('routes/rpc.php')))
                 $this->loadRoutesFrom(base_path('routes/rpc.php'));
         });
@@ -39,14 +48,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function merge_configs()
     {
-        $this->mergeConfigFrom(__DIR__ . '/configs/p2p_rpc.php','p2p_rpc');
-        $this->mergeConfigFrom(__DIR__ . '/configs/microservices.php','microservices');
+        $this->mergeConfigFrom(__DIR__ . '/configs/micro_features.php','micro_features');
     }
 
     public function register_publishes()
     {
         $this->publishes([
-            __DIR__ . '/configs/p2p_rpc.php' => config_path('p2p_rpc.php')
-        ], 'p2p_rpc_config');
+            __DIR__ . '/configs/micro_features.php' => config_path('micro_features.php')
+        ], 'micro_feature_config');
     }
+
 }

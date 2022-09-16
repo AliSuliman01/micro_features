@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AliSuliman\P2PRpc\Tests;
+namespace AliSuliman\MicroFeatures\Tests;
 
 
-use AliSuliman\P2PRpc\ServiceProvider;
+use AliSuliman\MicroFeatures\ServiceProvider;
 use Sajya\Server\ServerServiceProvider;
 
 class
