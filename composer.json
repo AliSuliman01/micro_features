@@ -27,7 +27,9 @@
         "ext-curl": "*",
         "ext-json": "*",
         "sajya/server": "dev-master",
-        "firebase/php-jwt": "^5.5"
+        "firebase/php-jwt": "^5.5",
+        "yajra/laravel-datatables-oracle": "^9.18",
+        "jenssegers/agent": "3.0.x-dev"
     },
     "extra": {
         "laravel": {

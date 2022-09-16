@@ -3,10 +3,10 @@
 namespace AliSuliman\MicroFeatures\Services\ServerErrorLog;
 
 use AliSuliman\MicroFeatures\Model\MicroConfig;
+use AliSuliman\MicroFeatures\Models\ServerErrorLog;
 use Illuminate\Support\Facades\Schema;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use AliSuliman\MicroFeatures\Models;
 
 class MySQLLoggingHandler extends AbstractProcessingHandler
 {
