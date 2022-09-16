@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ramaaz\MicroContact\Observers;
+namespace AliSuliman\MicroFeatures\Observers;
 
 use AliSuliman\MicroFeatures\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;

@@ -6,7 +6,7 @@ use AliSuliman\MicroFeatures\Model\MicroConfig;
 use Illuminate\Support\Facades\Schema;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use Ramaaz\MicroContact\Modules\ServerErrorLog\Model\ServerErrorLog;
+use AliSuliman\MicroFeatures\Models;
 
 class MySQLLoggingHandler extends AbstractProcessingHandler
 {

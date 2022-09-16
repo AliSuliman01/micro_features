@@ -9,9 +9,9 @@ use Illuminate\Contracts\Http\Kernel;
 use AliSuliman\MicroFeatures\Http\Middleware\SetLocale;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
-use Ramaaz\MicroContact\Observers\CachedDataObserver;
-use Ramaaz\MicroContact\Observers\LockedDataObserver;
-use Ramaaz\MicroContact\Observers\UserTrackingObserver;
+use AliSuliman\MicroFeatures\Observers\CachedDataObserver;
+use AliSuliman\MicroFeatures\Observers\LockedDataObserver;
+use AliSuliman\MicroFeatures\Observers\UserTrackingObserver;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {

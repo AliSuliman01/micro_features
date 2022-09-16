@@ -1,8 +1,6 @@
 <?php
 
-namespace Ramaaz\MicroContact\Modules\ServerErrorLog\Model;
-
-use AliSuliman\MicroFeatures\Models\MicroModel;
+namespace AliSuliman\MicroFeatures\Models;
 
 class ServerErrorLog extends MicroModel
 {
