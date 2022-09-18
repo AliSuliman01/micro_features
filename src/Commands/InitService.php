@@ -33,6 +33,11 @@ class InitService extends Command
     {
         $myUrl = config('app.url');
 
+        Cache::put('serviceInfo', [
+            'name' => $this->argument('name'),
+            'url' => $myUrl
+        ]);
+
         if (Service::getServiceUrl($this->argument('name')) === $myUrl) {
             Cache::put('serviceInfo', [
                 'name' => $this->argument('name'),
@@ -40,8 +45,13 @@ class InitService extends Command
             ]);
             $this->info("Registered successfully!");
         }
-        else
+        else{
+
+            Cache::forget('serviceInfo');
+
             $this->error("Undefined service!");
+        }
+
 
         return 0;
     }

@@ -49,20 +49,20 @@ trait UseConditions
     }
     public function applyConditions($collection)
     {
-        foreach ($this->wheres as $where)
+        foreach ($this->wheres ?? [] as $where)
             $collection = $collection->where($where[0], $where[1], $where[2]);
 
-        foreach ($this->whereIns as $whereIn)
+        foreach ($this->whereIns ?? [] as $whereIn)
             $collection = $collection->whereIn($whereIn[0], $whereIn[1]);
 
         return $collection;
     }
     public function applyReverseConditions($collection)
     {
-        foreach ($this->wheres as $where)
+        foreach ($this->wheres ?? [] as $where)
             $collection = $collection->where($where[0], $this->reverseOperation[$where[1]], $where[2]);
 
-        foreach ($this->whereIns as $whereIn)
+        foreach ($this->whereIns ?? [] as $whereIn)
             $collection = $collection->whereNotIn($whereIn[0], $whereIn[1]);
 
         return $collection;
