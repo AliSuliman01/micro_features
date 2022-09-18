@@ -1,6 +1,6 @@
 <?php
 
-namespace Ramaaz\MicroContact\Base;
+namespace AliSuliman\MicroFeatures\Http\Requests;
 
 use AliSuliman\MicroFeatures\Exceptions\Exception;
 use AliSuliman\MicroFeatures\Helpers\StatusCode;

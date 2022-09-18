@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ramaaz\MicroContact\Helpers;
+namespace AliSuliman\MicroFeatures\Helpers;
 
 
 use AliSuliman\MicroFeatures\Facades\Auth;
@@ -15,7 +15,7 @@ class UserAgent
         $agent = new Agent();
         return [
             'user_id' => Auth::id(),
-            'activity_type' => $data['activity_type'],
+            'uri' => request()->getUri(),
             'jsonRequest' => $data['jsonRequest'],
             'jsonResponse' => $data['jsonResponse'],
             'device' => $agent->device(),

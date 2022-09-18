@@ -3,13 +3,16 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
+        "files": [
+            "src/Helpers/global.php"
+        ],
         "psr-4": {
             "AliSuliman\\MicroFeatures\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AliSuliman\\MicroFeatures\\Tests": "tests/"
+            "AliSuliman\\MicroFeatures\\Tests\\": "tests/"
         }
     },
     "authors": [

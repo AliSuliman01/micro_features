@@ -8,16 +8,20 @@ use AliSuliman\MicroFeatures\Models\MicroModel;
 use Illuminate\Contracts\Http\Kernel;
 use AliSuliman\MicroFeatures\Http\Middleware\SetLocale;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use AliSuliman\MicroFeatures\Observers\CachedDataObserver;
 use AliSuliman\MicroFeatures\Observers\LockedDataObserver;
 use AliSuliman\MicroFeatures\Observers\UserTrackingObserver;
+use AliSuliman\MicroFeatures\Services\Auth\RemoteAuthGuard;
+use AliSuliman\MicroFeatures\Services\Auth\RemoteUserProvider;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function boot(Kernel $kernel)
     {
         $this->register_middlewares($kernel);
+        $this->loadMigrations();
         $this->load_routes();
         $this->merge_configs();
         $this->register_publishes();
@@ -25,6 +29,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         MicroModel::observe(CachedDataObserver::class);
         MicroModel::observe(LockedDataObserver::class);
         MicroModel::observe(UserTrackingObserver::class);
+
+        Auth::extend('remote_access_token',function(){
+            return new RemoteAuthGuard(app(RemoteUserProvider::class), app('request'));
+        });
     }
 
     private function register_middlewares(Kernel $kernel){
@@ -44,6 +52,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             if (file_exists(base_path('routes/rpc.php')))
                 $this->loadRoutesFrom(base_path('routes/rpc.php'));
         });
+    }
+
+    public function loadMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
     public function merge_configs()

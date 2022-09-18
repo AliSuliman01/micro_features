@@ -28,6 +28,7 @@ class Log
         $jsonRequest = $request->json()->all();
         $response = $next($request);
         $jsonResponse = $response->getJson();
+
         dispatch(new BroadcastJob(new StoreJob('activity_logs',[
             'jsonRequest' => $jsonRequest,
             'jsonResponse' => $jsonResponse,
