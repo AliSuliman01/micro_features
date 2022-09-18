@@ -3,6 +3,7 @@
 
 namespace AliSuliman\MicroFeatures;
 
+use AliSuliman\MicroFeatures\Commands\InitService;
 use AliSuliman\MicroFeatures\Http\Middleware\RpcAuthentication;
 use AliSuliman\MicroFeatures\Models\MicroModel;
 use Illuminate\Contracts\Http\Kernel;
@@ -29,6 +30,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         MicroModel::observe(CachedDataObserver::class);
         MicroModel::observe(LockedDataObserver::class);
         MicroModel::observe(UserTrackingObserver::class);
+
+        $this->commands([
+            InitService::class
+        ]);
 
         Auth::extend('remote_access_token',function(){
             return new RemoteAuthGuard(app(RemoteUserProvider::class), app('request'));

@@ -24,7 +24,7 @@ class UserAgent
             'platform_version' => $agent->version($agent->platform()),
             'browser' => $agent->browser(),
             'browser_version' => $agent->version($agent->browser()),
-            'ip_address' => request()->ip(),
+            'ip' => request()->ip(),
             'created_at' => Carbon::now()->toDateTimeString(),
         ];
     }

@@ -32,7 +32,8 @@
         "sajya/server": "dev-master",
         "firebase/php-jwt": "^5.5",
         "yajra/laravel-datatables-oracle": "^9.18",
-        "jenssegers/agent": "3.0.x-dev"
+        "jenssegers/agent": "3.0.x-dev",
+        "spatie/data-transfer-object": "^3.7"
     },
     "extra": {
         "laravel": {
