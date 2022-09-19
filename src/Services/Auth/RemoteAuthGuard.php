@@ -37,17 +37,17 @@ class RemoteAuthGuard implements Guard
         try {
             $payload = JWT::decode($this->request->bearerToken(), new Key(__DIR__ . '/../../../storage/oauth-public.key', 'RS256'));
         } catch (\Throwable $e) {
-            throw new AuthorizationException(debugMessage: 'invalid signature.');
+            return false;
         }
 
         if ($payload->exp - time() < 0) {
-            throw new TokenExpiredException();
+            return false;
         }
 
         $user = $this->provider->retrieveByToken('id', $payload->jti);
 
         if (!$user) {
-            throw new AuthorizationException(debugMessage: 'user not found.');
+            return false;
         }
 
         Auth::setUser($user);
