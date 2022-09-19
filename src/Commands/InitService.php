@@ -38,20 +38,16 @@ class InitService extends Command
             'url' => $myUrl
         ]);
 
-        if (Service::getServiceUrl($this->argument('name')) === $myUrl) {
-            Cache::put('serviceInfo', [
+        if (!$service = Service::query()->where('name','=',$this->argument('name'))->first()) {
+            Service::query()->store([
                 'name' => $this->argument('name'),
                 'url' => $myUrl
             ]);
             $this->info("Registered successfully!");
         }
         else{
-
-            Cache::forget('serviceInfo');
-
-            $this->error("Undefined service!");
+            $this->error("Already existed!");
         }
-
 
         return 0;
     }
