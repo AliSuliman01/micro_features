@@ -12,22 +12,25 @@ use Illuminate\Support\Str;
 
 abstract class RemoteModel
 {
-    public static $index;
+    public $index;
 
     public function __construct()
     {
-        self::$index = static::$index ?? Str::snake(Str::pluralStudly(basename(static::class)));
+        $this->index = $this->index ?? Str::snake(Str::pluralStudly(class_basename($this)));
     }
 
     public static abstract function originServiceName():string;
 
     public static function query()
     {
+        $remoteModel = new static();
+
         if ((new static()) instanceof ShouldBeCached){
-            if (!Cache::has(self::$index))
-                return (new RemoteQueryBuilder(static::originServiceName(),self::$index))->caching();
-            return new CacheQueryBuilder(self::$index);
+            if (!Cache::has($remoteModel->index))
+                return (new RemoteQueryBuilder(static::originServiceName(),$remoteModel->index))->caching();
+            return new CacheQueryBuilder($remoteModel->index);
         }
-        return new RemoteQueryBuilder(static::originServiceName(),self::$index);
+
+        return new RemoteQueryBuilder(static::originServiceName(),$remoteModel->index);
     }
 }
