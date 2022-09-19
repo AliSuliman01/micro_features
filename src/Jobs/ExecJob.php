@@ -4,6 +4,7 @@
 namespace AliSuliman\MicroFeatures\Jobs;
 
 
+use AliSuliman\MicroFeatures\Exceptions\Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +18,6 @@ class ExecJob extends Job  implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $space;
-    public $headers;
     public $method;
     public $rpcParams;
     public $accessToken;
@@ -27,7 +27,7 @@ class ExecJob extends Job  implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($space, $method, $rpcParams, $accessToken)
+    public function __construct($space = null, $method = null, $rpcParams = null, $accessToken = null)
     {
         $this->space = $space;
         $this->method = $method;
@@ -46,12 +46,27 @@ class ExecJob extends Job  implements ShouldQueue
         $headers[] = 'Content-type: application/json';
         $headers[] = "Authorization: Bearer $this->accessToken";
 
-         Http::asJson()->withHeaders($headers)->post(config('micro_identifier.base_url')."/rpc/$this->space",[
-            'jsonrpc' => 2.0,
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_URL, config('app.url')."/rpc/$this->space");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            'jsonrpc' => "2.0",
             'method' => "@$this->method",
             'params' => $this->rpcParams,
             'id' => time(),
             'locale' => App::getLocale()
-        ]);
+        ]));
+
+
+        try {
+            $response = curl_exec($ch);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+        } finally {
+            curl_close($ch);
+        }
     }
 }

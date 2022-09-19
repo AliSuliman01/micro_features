@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class BroadcastJob extends Job implements ShouldQueue
+class BroadcastJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels,UseConditions;
 
@@ -42,10 +42,8 @@ class BroadcastJob extends Job implements ShouldQueue
 
         foreach ($this->services as $serviceName){
             rpc($serviceName,'queue','push',[
-                [
-                    'job_class' => get_class($this->remoteJob),
-                    'job_params' => $this->remoteJob->getProps()
-                ]
+                'job_class' => get_class($this->remoteJob),
+                'job_params' => $this->remoteJob->getProps()
             ]);
         }
     }

@@ -56,6 +56,7 @@ class RPC
             curl_close($ch);
         }
 
+
         $response = json_decode($response);
 
         if (is_null($response))
@@ -65,7 +66,7 @@ class RPC
         if (property_exists($response, 'result'))
             return $response->result;
         else if (property_exists($response, 'error'))
-            throw new Exception($response->error->data->message);
+            throw new Exception(json_encode($response));
         else
             return $response;
 

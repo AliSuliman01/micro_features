@@ -16,9 +16,9 @@ class UpdateCacheJob  extends Job implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UseConditions;
 
-    private $table;
-    private $data;
-    private $keyName;
+    public $table;
+    public $data;
+    public $keyName;
 
     /**
      * Create a new job instance.

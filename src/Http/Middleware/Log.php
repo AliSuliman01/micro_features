@@ -14,6 +14,7 @@ use AliSuliman\MicroFeatures\Jobs\StoreJob;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class Log
 {
@@ -27,16 +28,23 @@ class Log
      */
     public function handle(Request $request, \Closure $next)
     {
-        $jsonRequest = $request->json()->all();
+        $jsonRequest = $request->getContent();
         $response = $next($request);
         $jsonResponse = $response->getContent();
 
+        if (strlen($jsonRequest) == 0 )
+            $jsonRequest = null;
+
+        $hashKey = file_get_contents(__DIR__ . '/../../../storage/jwt-secret.key');
+
+        $accessToken = JWT::encode(Cache::get('serviceInfo'), $hashKey, 'HS256');
+
         dispatch(new BroadcastJob(new ExecJob('activity_logs','store',
             UserAgent::createUserActivityRequest([
-                'jsonRequest' => $jsonRequest,
-                'jsonResponse' => $jsonResponse,
+                'jsonRequest' => strlen($jsonRequest) ? $jsonRequest : null,
+                'jsonResponse' => strlen($jsonResponse) ? $jsonResponse : null,
             ]),
-            Auth::$rpcToken
+            $accessToken
         ),['logs']));
 
         return $response;

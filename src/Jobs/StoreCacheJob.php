@@ -15,8 +15,8 @@ class StoreCacheJob  extends Job implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $table;
-    private $data;
+    public $table;
+    public $data;
 
     /**
      * Create a new job instance.

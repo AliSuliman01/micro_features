@@ -11,7 +11,9 @@ class QueueProcedure extends Procedure
 {
     public function push(Request $request)
     {
-        return dispatch(new $request->job_class(...$request->job_params));
+        $job = new $request->job_class();
+        $job->setProps($request->job_params);
+        dispatch($job);
     }
 
     public function exec(Request $request)

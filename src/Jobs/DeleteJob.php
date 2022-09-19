@@ -15,15 +15,15 @@ class DeleteJob  extends Job implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, UseConditions;
 
-    private $table;
-    private $keyName;
-    private $keyValue;
+    public $table;
+    public $keyName;
+    public $keyValue;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($table, $keyName, $keyValue)
+    public function __construct($table = null, $keyName = null, $keyValue = null)
     {
         $this->table = $table;
         $this->keyValue = $keyValue;
